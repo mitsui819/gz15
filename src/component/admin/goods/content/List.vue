@@ -59,6 +59,13 @@
                   </template>
               </el-table-column>
          </el-table>
+
+        <el-pagination
+            @size-change="sizeChange" @current-change="currentChange"
+            :current-page="gsListQuery.pageIndex" :page-sizes="page.pageSizes"
+            :page-size="gsListQuery.pageSize" :total="page.total"
+            layout="total,sizes,prev,pager,next,jumper">
+        </el-pagination>
     </div>
 </template>
 
@@ -103,6 +110,10 @@
                      pageIndex: 1,
                      pageSize: 10,
                      searchvalue: ''
+                 },
+                 page:{
+                     pageSize:[10,20,30,40],
+                     total:100
                  }
              }
          },
@@ -116,11 +127,24 @@
                      this.tableData3 = res.data.message;
  
                      // 接口还会返回如下三个数据, 将来分页的时候要用
+                     this.page.total = res.data.totalcount;
                      // res.data.totalcount
                      // res.data.pageIndex
                      // res.data.pageSize
                  });
-             }
+             },
+             modifyStatus(id,type,newStatus){
+                 this.tableData3.filter(goods =>goods.id == id)[0][type] = newStatus?1:0;
+             },
+             sizeChange(pageSize){
+                 this.gsListQuery.pageSize = pageSize;
+                 this.getGoodsList();
+             },
+             
+             currentChange(pageIndex){
+                 this.gsListQuery.pageIndex = pageIndex;
+                 this.getGoodsList();
+             },
          },
  
          // 组件初始化完毕后, 立马调用接口进行渲染
@@ -130,6 +154,12 @@
      }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+    [class^=el-icon]{
+        color:rgba(0, 0, 0, 0.3);
 
+        &.active{
+            color: #000;
+        }
+    }
 </style>
