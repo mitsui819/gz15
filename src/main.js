@@ -16,14 +16,19 @@ import routerConfig from './router/index.js';
 
 import axios from 'axios';
 axios.defaults.baseURL = 'http://localhost:8899';
+axios.defaults.withCredentials=true;
 Vue.prototype.$http = axios;
 import api from './js/api-config.js';
 Vue.prototype.$api = api;
+
+import beforeEach from './router/beforeEach.js';
+let vueRouter = new VueRouter(routerConfig);
+vueRouter.beforeEach(beforeEach);
 
 new Vue({
     el:'#app',
     render: function (createElement) {
         return createElement(App);
     },
-    router:new VueRouter(routerConfig)
+    router:vueRouter
 });
