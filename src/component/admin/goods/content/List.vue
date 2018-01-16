@@ -9,14 +9,14 @@
         <!-- 按钮组 -->
         <div>
             <el-button size="mini" plain icon="el-icon-plus">新增</el-button>
-            <el-button size="mini" plain icon="el-icon-check">全选</el-button>
-            <el-button size="mini" plain icon="el-icon-delete">删除</el-button>
+            <el-button size="mini" plain icon="el-icon-check" @click="selectAll">全选</el-button>
+            <el-button size="mini" plain icon="el-icon-delete" @click="selectedDel">删除</el-button>
             <el-input style="width: 200px; float: right;" size="mini"
                 placeholder="请输入内容" prefix-icon="el-icon-search"
                 v-model="gsListQuery.searchvalue" @blur="getGoodsList">
                 </el-input>
         </div>
-        <el-table tooltip-effect="dark" style="width: 100%" ref="multipleTable" :data="tableData3">
+        <el-table tooltip-effect="dark" style="width: 100%" ref="multipleTable" :data="tableData3" @selection-change="selectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="标题">
                 <template slot-scope="scope">
@@ -114,7 +114,8 @@
                  page:{
                      pageSize:[10,20,30,40],
                      total:100
-                 }
+                 },
+                 selection:[]
              }
          },
  
@@ -145,6 +146,45 @@
                  this.gsListQuery.pageIndex = pageIndex;
                  this.getGoodsList();
              },
+             del(){
+                 let ids = this.selection.map(v => v.id).join(',');
+
+                 this.$http.get(this.$api.gsDel + ids).then(res => {
+                     if(res.data.status == 0){
+                         this.getGoodsList();
+                         this.selection = [];
+                         this.$message({
+                             type:'success',
+                             message:'删咗'
+                         });
+                     }
+                 });
+             },
+             selectedDel(){
+                 this.$confirm('此操作会永久删除商品你删唔删？','提示',{
+                     confirmButtonText:'删咯米',
+                     cancelButtonText:'唔删啊',
+                     type:'warning'
+                 })
+                 // 确定按钮, 调接口删除
+                .then(() => {
+                    this.del();
+                })
+                // 取消按钮, 给出取消提示
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
+                });
+
+             },
+             selectAll(){
+                 document.querySelector('.el-checkbox__inner').click();
+             },
+             selectionChange(selection){
+                 this.selection = selection;
+             }
          },
  
          // 组件初始化完毕后, 立马调用接口进行渲染
