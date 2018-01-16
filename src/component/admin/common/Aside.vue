@@ -8,7 +8,7 @@
        <span>{{item.title}}</span>
      </template>
     <el-menu-item v-for="subitem in item.children" :key="subitem.title" :index="subitem.title">
-      <router-link :to="subitem.path">{{submit.title}}</router-link>
+      <router-link :to="subitem.path">{{subitem.title}}</router-link>
     </el-menu-item>
 
    </el-submenu>
@@ -49,11 +49,11 @@ export default {
   },
 
   methods: {
-    handleOpen(key,keyPath){
-      console.log(key,keyPath);
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
     },
-    handleClose(key,keyPath){
-      console.log(key,keyPath);
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
     }
   }
 };
