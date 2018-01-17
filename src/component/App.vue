@@ -25,7 +25,7 @@
 // }
 </script>
 
-<style >
+<style scoped>
 div {
   height: 100%;
   background-color: rgb(38, 124, 183);

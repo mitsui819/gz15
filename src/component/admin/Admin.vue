@@ -28,20 +28,20 @@ export default {
 </script>
 
 <style scoped>
-    .el-header{
-        background-color: #B3C0D1;
-        color:#333;
-    }
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+}
 
-    .el-aside{
-        background-color: #D3DCE6;
-        color:#333;
-    }
-    .el-main{
-        background-color: #E9EEf3;
-        color: #333;
-    }
-    .admin{
-        height: 100%;
-    }
+.el-aside {
+  background-color: #d3dce6;
+  color: #333;
+}
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+}
+.admin {
+  height: 100%;
+}
 </style>
